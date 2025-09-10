@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethereum Events Monitor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .event-log {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+        .event {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-left: 3px solid #007bff;
+            background-color: #f0f8ff;
+        }
+        .event-type {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .controls {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:disabled {
+            background-color: #cccccc;
+        }
+        input[type="text"] {
+            padding: 8px;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ethereum Events Monitor</h1>
+    
+    <div class="connection-status">
+        Status: <span id="status">Disconnected</span>
+    </div>
+    
+    <div class="controls">
+        <button id="connect-btn">Connect</button>
+        <button id="disconnect-btn" disabled>Disconnect</button>
+    </div>
+    
+    <div class="contract-subscription">
+        <h3>Subscribe to Contract Events</h3>
+        <input type="text" id="contract-address" placeholder="Contract Address (0x...)">
+        <button id="subscribe-btn">Subscribe</button>
+    </div>
+    
+    <h3>Event Log</h3>
+    <div class="event-log" id="event-log"></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusEl = document.getElementById('status');
+            const eventLogEl = document.getElementById('event-log');
+            const connectBtn = document.getElementById('connect-btn');
+            const disconnectBtn = document.getElementById('disconnect-btn');
+            const contractAddressInput = document.getElementById('contract-address');
+            const subscribeBtn = document.getElementById('subscribe-btn');
+            
+            let socket = null;
+            
+            // Connect to WebSocket server
+            connectBtn.addEventListener('click', function() {
+                // Create WebSocket connection
+                socket = new WebSocket(`ws://${window.location.host}/api/v1/events/ws`);
+                
+                // Connection opened
+                socket.addEventListener('open', function() {
+                    statusEl.textContent = 'Connected';
+                    statusEl.style.color = 'green';
+                    connectBtn.disabled = true;
+                    disconnectBtn.disabled = false;
+                    
+                    addEventToLog('System', 'Connected to server');
+                });
+                
+                // Listen for messages
+                socket.addEventListener('message', function(event) {
+                    try {
+                        const data = JSON.parse(event.data);
+                        addEventToLog(data.type, JSON.stringify(data, null, 2));
+                    } catch (e) {
+                        addEventToLog('Raw message', event.data);
+                    }
+                });
+                
+                // Connection closed
+                socket.addEventListener('close', function() {
+                    statusEl.textContent = 'Disconnected';
+                    statusEl.style.color = 'red';
+                    connectBtn.disabled = false;
+                    disconnectBtn.disabled = true;
+                    
+                    addEventToLog('System', 'Disconnected from server');
+                    socket = null;
+                });
+                
+                // Connection error
+                socket.addEventListener('error', function(error) {
+                    addEventToLog('Error', 'Connection error');
+                    console.error('WebSocket error:', error);
+                });
+            });
+            
+            // Disconnect from WebSocket server
+            disconnectBtn.addEventListener('click', function() {
+                if (socket) {
+                    socket.close();
+                }
+            });
+            
+            // Subscribe to contract events
+            subscribeBtn.addEventListener('click', function() {
+                const contractAddress = contractAddressInput.value.trim();
+                
+                if (!contractAddress) {
+                    alert('Please enter a contract address');
+                    return;
+                }
+                
+                if (!socket || socket.readyState !== WebSocket.OPEN) {
+                    alert('Please connect to the server first');
+                    return;
+                }
+                
+                // Send subscription message
+                socket.send(JSON.stringify({
+                    type: 'subscribe',
+                    contract: contractAddress,
+                    events: [] // Empty array means all events
+                }));
+                
+                addEventToLog('System', `Subscribed to contract: ${contractAddress}`);
+            });
+            
+            // Add event to log
+            function addEventToLog(type, message) {
+                const timestamp = new Date().toLocaleTimeString();
+                
+                const eventEl = document.createElement('div');
+                eventEl.className = 'event';
+                eventEl.innerHTML = `
+                    <div class="event-type">[${timestamp}] ${type}</div>
+                    <pre>${message}</pre>
+                `;
+                
+                eventLogEl.appendChild(eventEl);
+                eventLogEl.scrollTop = eventLogEl.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+server:
+  port: 8080
+  host: localhost
+
+ethereum:
+  provider: http://localhost:8545
+  chainID: 1
+  privateKey: "" # Will be loaded from environment variable
