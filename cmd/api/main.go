@@ -7,10 +7,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/user/go-web3/internal/api"
-	"github.com/user/go-web3/internal/config"
-	"github.com/user/go-web3/internal/ethereum"
-	"github.com/user/go-web3/internal/events"
+	"github.com/em/go-web3/internal/api"
+	"github.com/em/go-web3/internal/config"
+	"github.com/em/go-web3/internal/ethereum"
+	"github.com/em/go-web3/internal/events"
 )
 
 func main() {

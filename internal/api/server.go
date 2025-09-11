@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/em/go-web3/internal/config"
 	"github.com/gin-gonic/gin"
-	"github.com/user/go-web3/internal/config"
 )
 
 // Server represents the REST API server

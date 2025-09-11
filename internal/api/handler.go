@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/em/go-web3/internal/ethereum"
+	"github.com/em/go-web3/internal/events"
 	"github.com/gin-gonic/gin"
-	"github.com/user/go-web3/internal/ethereum"
-	"github.com/user/go-web3/internal/events"
 )
 
 // Handler handles the API requests

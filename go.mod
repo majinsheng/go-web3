@@ -1,4 +1,4 @@
-module github.com/user/go-web3
+module github.com/em/go-web3
 
 go 1.24.0
 

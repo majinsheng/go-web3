@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/em/go-web3/internal/events"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
-	"github.com/user/go-web3/internal/events"
 )
 
 var upgrader = websocket.Upgrader{

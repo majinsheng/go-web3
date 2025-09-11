@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"math/big"
 
+	"github.com/em/go-web3/internal/config"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/user/go-web3/internal/config"
 )
 
 // Client wraps the Ethereum client with additional functionality

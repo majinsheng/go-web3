@@ -4,9 +4,9 @@ import (
 	"math/big"
 	"net/http"
 
+	"github.com/em/go-web3/internal/events"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/gin-gonic/gin"
-	"github.com/user/go-web3/internal/events"
 )
 
 // WatchAddressRequest represents a request to watch a specific address
