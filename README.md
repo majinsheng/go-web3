@@ -104,6 +104,76 @@ go run cmd/api/main.go
 ./run.sh
 ```
 
+## Development
+
+### Local Ethereum Node Setup
+
+For development and testing, you can run a local Ethereum node using tools like Ganache or Hardhat.
+
+#### Using Ganache
+
+[Ganache](https://trufflesuite.com/ganache/) provides a personal Ethereum blockchain for development.
+
+```bash
+# Install Ganache CLI
+npm install -g ganache
+
+# Start a local Ethereum node with 10 pre-funded accounts
+ganache --deterministic --accounts 10 --gasLimit 10000000
+
+# Connect to it by setting in your .env or config.yaml:
+# ETH_NODE_URL=http://127.0.0.1:8545
+```
+
+#### Using Hardhat
+
+[Hardhat](https://hardhat.org/) is a development environment for Ethereum software.
+
+```bash
+# Install Hardhat
+npm install --save-dev hardhat
+
+# Initialize a Hardhat project
+npx hardhat init
+
+# Start a local node
+npx hardhat node
+
+# Connect to it by setting in your .env or config.yaml:
+# ETH_NODE_URL=http://127.0.0.1:8545
+```
+
+#### Using Geth (Go Ethereum)
+
+For a more production-like environment, you can use Geth in development mode:
+
+```bash
+# Install Geth (instructions vary by OS)
+# For Windows with Chocolatey:
+choco install geth
+
+# For macOS with Homebrew:
+brew install ethereum
+
+# Start a local development node with websocket
+geth -dev --http --http.addr "0.0.0.0" --http.port "8545" --http.api "eth,net,web3" --ws --ws.addr "0.0.0.0" --ws.port "8546" --ws.api "eth,net,web3" --ws.origins "*"
+
+# Connect to it by setting in your .env or config.yaml:
+# ETH_NODE_URL=http://127.0.0.1:8545
+```
+
+### Hot Reloading
+
+For development with hot reloading, you can use [Air](https://github.com/cosmtrek/air). A configuration file (`.air.toml`) is already included in the project.
+
+```bash
+# Install Air
+go install github.com/cosmtrek/air@latest
+
+# Run with hot reload
+air
+```
+
 ## Web Interface
 
 The project includes a simple web interface for testing the WebSocket event system. You can access it by opening your browser to the root URL of the server (e.g., `http://localhost:8080/`). 
@@ -227,76 +297,6 @@ curl -X POST http://localhost:8080/api/v1/monitor/high-value \
 ## License
 
 MIT
-
-## Development
-
-### Local Ethereum Node Setup
-
-For development and testing, you can run a local Ethereum node using tools like Ganache or Hardhat.
-
-#### Using Ganache
-
-[Ganache](https://trufflesuite.com/ganache/) provides a personal Ethereum blockchain for development.
-
-```bash
-# Install Ganache CLI
-npm install -g ganache
-
-# Start a local Ethereum node with 10 pre-funded accounts
-ganache --deterministic --accounts 10 --gasLimit 10000000
-
-# Connect to it by setting in your .env or config.yaml:
-# ETH_NODE_URL=http://127.0.0.1:8545
-```
-
-#### Using Hardhat
-
-[Hardhat](https://hardhat.org/) is a development environment for Ethereum software.
-
-```bash
-# Install Hardhat
-npm install --save-dev hardhat
-
-# Initialize a Hardhat project
-npx hardhat init
-
-# Start a local node
-npx hardhat node
-
-# Connect to it by setting in your .env or config.yaml:
-# ETH_NODE_URL=http://127.0.0.1:8545
-```
-
-#### Using Geth (Go Ethereum)
-
-For a more production-like environment, you can use Geth in development mode:
-
-```bash
-# Install Geth (instructions vary by OS)
-# For Windows with Chocolatey:
-choco install geth
-
-# For macOS with Homebrew:
-brew install ethereum
-
-# Start a local development node with websocket
-geth -dev --http --http.addr "0.0.0.0" --http.port "8545" --http.api "eth,net,web3" --ws --ws.addr "0.0.0.0" --ws.port "8546" --ws.api "eth,net,web3" --ws.origins "*"
-
-# Connect to it by setting in your .env or config.yaml:
-# ETH_NODE_URL=http://127.0.0.1:8545
-```
-
-### Hot Reloading
-
-For development with hot reloading, you can use [Air](https://github.com/cosmtrek/air). A configuration file (`.air.toml`) is already included in the project.
-
-```bash
-# Install Air
-go install github.com/cosmtrek/air@latest
-
-# Run with hot reload
-air
-```
 
 ### Using the Makefile
 
