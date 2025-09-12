@@ -42,7 +42,7 @@ func LoadConfig() (*Config, error) {
 	// Set default values
 	viper.SetDefault("server.port", "8080")
 	viper.SetDefault("server.host", "localhost")
-	viper.SetDefault("ethereum.provider", "http://localhost:8545")
+	viper.SetDefault("ethereum.provider", "ws://localhost:8545")
 	viper.SetDefault("ethereum.chainID", 1)
 
 	// Read config file

@@ -279,8 +279,8 @@ choco install geth
 # For macOS with Homebrew:
 brew install ethereum
 
-# Start a local development node
-geth --dev --http --http.api eth,web3,personal,net,miner,admin,debug --ws --ws.api eth,web3,personal,net,miner,admin,debug --allow-insecure-unlock
+# Start a local development node with websocket
+geth -dev --http --http.addr "0.0.0.0" --http.port "8545" --http.api "eth,net,web3" --ws --ws.addr "0.0.0.0" --ws.port "8546" --ws.api "eth,net,web3" --ws.origins "*"
 
 # Connect to it by setting in your .env or config.yaml:
 # ETH_NODE_URL=http://127.0.0.1:8545
