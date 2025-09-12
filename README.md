@@ -2,6 +2,10 @@
 
 A Go-based REST API server for interacting with the Ethereum blockchain using go-ethereum.
 
+
+https://github.com/user-attachments/assets/a05aa8e3-cec6-440f-b972-d3e7144e87a9
+
+
 ## Features
 
 - REST API for Ethereum blockchain interactions
