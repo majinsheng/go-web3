@@ -1,5 +1,4 @@
 # Go Web3 API
-
 A Go-based REST API server for interacting with the Ethereum blockchain using go-ethereum.
 
 ## Features
